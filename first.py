@@ -106,6 +106,10 @@ def find_monday(date):
         date += timedelta(days=1)
     return monday
 
+def count_days(start_date, end_date):
+    temp_day = start_date
+    
+
 def count_weeks(start_date, end_date):
     temp_year = start_date.year
     total_days = 0
@@ -117,9 +121,9 @@ def count_weeks(start_date, end_date):
         start_date = datetime(temp_year, 9, 1)
         monday = find_monday(start_date)
         year_end = datetime(temp_year+1, 5, 31)   
-        while monday <= year_end:
+        while start_date <= year_end:
             year_days += 1
-            monday += timedelta(days=1)     
+            start_date += timedelta(days=1)     
         year_weeks += year_days // 7
         weeks += year_weeks
         print(year_weeks, "Долоо хоног")
