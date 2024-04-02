@@ -6,7 +6,7 @@ def elementary(start_date, end_date, work_day):
     total_work_hours = 0
 
     temp_day = start_date
-    while temp_day < end_date:
+    while temp_day <= end_date:
         if temp_day.weekday() < work_day:
             if not (temp_day.month >= 6 and temp_day.month < 9):
                 total_work_hours += 4
@@ -15,31 +15,35 @@ def elementary(start_date, end_date, work_day):
     print("------Бага анги------")
     print(start_date)
     print(end_date)
+    weeks = count_weeks(start_date, end_date)
+    fav_hours = weeks * 4
+    print("7 хоногийн тоо: ", weeks)
     print("Нийт хичээлийн өдөр: ",total_days)
     print("Нийт хичээлийн цаг: ", total_work_hours)
+    print("Сонирхолтой хичээлийн цаг: ", fav_hours)
     
 def middle(start_date, end_date, work_day, work_hours):
     total_days = 0
     total_work_hours = 0
     
     start_date = datetime(start_date.year, 9, 1)
-    weeks = count_weeks(start_date, end_date)
     
     temp_day = start_date
-    while temp_day < end_date:
+    while temp_day <= end_date:
         if temp_day.weekday() < work_day:
             if not (temp_day.month >= 6 and temp_day.month < 9):
                 total_days += 1
                 total_work_hours += 6
         temp_day += timedelta(days=1)
     
-    if work_hours == 1:
-        total_work_hours = weeks * 34
-    fav_hours = weeks * 4
     print("------Дунд анги------")
     print(start_date)
     print(end_date)
     print("Нийт хичээлийн өдөр: ",total_days)
+    weeks = count_weeks(start_date, end_date)
+    if work_hours == 1:
+        total_work_hours = weeks * 34
+    fav_hours = weeks * 4
     print("7 хоногийн тоо: ", weeks)
     print("Нийт хичээлийн цаг: ", total_work_hours)
     print("Сонирхолтой хичээлийн цаг: ", fav_hours)
@@ -50,7 +54,7 @@ def high(start_date, end_date, work_day):
     start_date = datetime(start_date.year, 9, 1)
 
     temp_day = start_date
-    while temp_day < end_date:
+    while temp_day <= end_date:
         if temp_day.weekday() < work_day:
             if not (temp_day.month >= 6 and temp_day.month < 9):
                 total_work_hours += 4
@@ -60,8 +64,13 @@ def high(start_date, end_date, work_day):
     print("------Ахлах анги------")
     print(datetime(start_date.year, 9, 1))
     print(end_date)
+    weeks = count_weeks(start_date, end_date)
+    fav_hours = weeks * 4
+    print("7 хоногийн тоо: ", weeks)
     print("Нийт хичээлийн өдөр: ",total_days)
     print("Нийт хичээлийн цаг: ", total_work_hours)
+    print("Сонирхолтой хичээлийн цаг: ", fav_hours)
+
 
 def univ(start_date, end_date, work_day):
     total_days = 0
@@ -71,7 +80,7 @@ def univ(start_date, end_date, work_day):
     start_date = datetime(start_date.year, 9, 1)
     practice_hours += 3 * work_day * 8 * duration
     temp_day = start_date
-    while temp_day < end_date:
+    while temp_day <= end_date:
         if temp_day.weekday() < work_day:
             if not (temp_day.month >= 6 and temp_day.month < 9):
                 work_hours += 3
@@ -81,18 +90,42 @@ def univ(start_date, end_date, work_day):
     print("------Дээд сургууль------")
     print(start_date)
     print(end_date)
+    weeks = count_weeks(start_date, end_date)
+    print("7 хоногийн тоо: ", weeks)
     print("Нийт хичээлийн өдөр: ",total_days)
     print("Нийт хичээлийн цаг: ", work_hours)
     print("Нийт дадлагын цаг:", practice_hours)
     print("Дадлагын цагийн эзлэх хувь: ", round(practice_hours/work_hours*100, 2), "%")
 
+def find_monday(date):
+    while date:
+        if date.weekday() == 0:
+            monday = date
+            print("Эхний Даваа гараг: ", monday)
+            break
+        date += timedelta(days=1)
+    return monday
+
 def count_weeks(start_date, end_date):
+    temp_year = start_date.year
+    total_days = 0
+    weeks = 0
     
-    total_days = (end_date - start_date).days
-    weeks = total_days // 7
+    while temp_year <= end_date.year-1:
+        year_days = 0
+        start_date = datetime(temp_year, 9, 1)
+        monday = find_monday(start_date)
+        year_end = datetime(temp_year+1, 5, 31)   
+        while monday <= year_end:
+            year_days += 1
+            monday += timedelta(days=1)        
+        weeks += year_days // 7
+        total_days += year_days
+        temp_year += 1
+    print("Нийт өдөр:", total_days)
     return weeks
 
-# Define the start date
+# Эхлэлийн огноо олгох
 start_date = datetime(1978, 9, 1)
 end_date = datetime(1993, 5, 31)
 start_date1 = datetime(2006, 9, 1)
