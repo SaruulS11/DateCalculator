@@ -39,7 +39,6 @@ def middle(start_date, end_date, work_day, work_hours):
     print("\n------Дунд анги------")
     print(start_date)
     print(end_date)
-    print("Нийт хичээлийн өдөр: ",total_days)
     weeks = count_weeks(start_date, end_date)
     if work_hours == 1:
         total_work_hours = weeks * 34
@@ -106,9 +105,16 @@ def find_monday(date):
         date += timedelta(days=1)
     return monday
 
-def count_days(start_date, end_date):
+def count_days(start_date):
+    days = 0
+    end_date = datetime(start_date.year+1, 5, 31)
     temp_day = start_date
-    
+    while temp_day <= end_date:
+        if not (temp_day.month >= 6 and temp_day.month < 9):
+            days += 1
+        temp_day += timedelta(days=1)
+    print("Хичээлйин өдрүүд:",days)
+    return days
 
 def count_weeks(start_date, end_date):
     temp_year = start_date.year
@@ -118,16 +124,17 @@ def count_weeks(start_date, end_date):
     while temp_year <= end_date.year-1:
         year_weeks = 0
         year_days = 0
+        week_days = 0
         start_date = datetime(temp_year, 9, 1)
         monday = find_monday(start_date)
         year_end = datetime(temp_year+1, 5, 31)   
-        while start_date <= year_end:
-            year_days += 1
-            start_date += timedelta(days=1)     
-        year_weeks += year_days // 7
+        total_days += count_days(start_date)
+        while monday <= year_end:
+            week_days += 1
+            monday += timedelta(days=1)     
+        year_weeks += week_days // 7
         weeks += year_weeks
         print(year_weeks, "Долоо хоног")
-        print("Хичээлийн өдөр", year_days)
 
         total_days += year_days
         temp_year += 1
