@@ -12,7 +12,7 @@ def elementary(start_date, end_date, work_day):
                 total_work_hours += 4
                 total_days += 1
         temp_day += timedelta(days=1)
-    print("------Бага анги------")
+    print("\n------Бага анги------")
     print(start_date)
     print(end_date)
     weeks = count_weeks(start_date, end_date)
@@ -36,7 +36,7 @@ def middle(start_date, end_date, work_day, work_hours):
                 total_work_hours += 6
         temp_day += timedelta(days=1)
     
-    print("------Дунд анги------")
+    print("\n------Дунд анги------")
     print(start_date)
     print(end_date)
     print("Нийт хичээлийн өдөр: ",total_days)
@@ -61,7 +61,7 @@ def high(start_date, end_date, work_day):
                 total_days += 1
         temp_day += timedelta(days=1)
         
-    print("------Ахлах анги------")
+    print("\n------Ахлах анги------")
     print(datetime(start_date.year, 9, 1))
     print(end_date)
     weeks = count_weeks(start_date, end_date)
@@ -87,7 +87,7 @@ def univ(start_date, end_date, work_day):
                 total_days += 1
         temp_day += timedelta(days=1)
         
-    print("------Дээд сургууль------")
+    print("\n------Дээд сургууль------")
     print(start_date)
     print(end_date)
     weeks = count_weeks(start_date, end_date)
@@ -112,14 +112,19 @@ def count_weeks(start_date, end_date):
     weeks = 0
     
     while temp_year <= end_date.year-1:
+        year_weeks = 0
         year_days = 0
         start_date = datetime(temp_year, 9, 1)
         monday = find_monday(start_date)
         year_end = datetime(temp_year+1, 5, 31)   
         while monday <= year_end:
             year_days += 1
-            monday += timedelta(days=1)        
-        weeks += year_days // 7
+            monday += timedelta(days=1)     
+        year_weeks += year_days // 7
+        weeks += year_weeks
+        print(year_weeks, "Долоо хоног")
+        print("Хичээлийн өдөр", year_days)
+
         total_days += year_days
         temp_year += 1
     print("Нийт өдөр:", total_days)
