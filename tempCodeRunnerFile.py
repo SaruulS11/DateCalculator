@@ -1,1 +1,1 @@
-week_days
+work_day
